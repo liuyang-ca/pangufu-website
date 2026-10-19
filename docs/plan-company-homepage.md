@@ -290,3 +290,16 @@ excluded per the owner's decision. No commits, pushes, deployment or DNS changes
 
 Review snapshots: S0 `3d801a37b99b872cba1c016d5aecce26cec63667`;
 fix round S1 `98c4a3af5916d10d5d73df2f5ca5abad43c4ab88`.
+
+
+## Featured screenshot gradient review — 2026-10-19
+
+Reviewed the styles.css background change with `$review-loop auto`: the featured
+screenshot frame now uses the same 145-degree grey gradient as the training cards.
+No findings, fix rounds or debt. Chromium checks at 1440/768/390 confirmed equal
+computed gradients, loaded/full-fit image and no overflow; visual review and
+whitespace checks passed. No extra gates or stamp configured. No fresh pass
+required for this single styling change; no automated tests added under the
+personal-project testing policy. Scope: styles.css and this review record;
+unrelated IDE file excluded. Initial review snapshot:
+`983bddf8893cfa5d5a0daa76e9a097bdfd071485`. Auto authorizes commit and push.

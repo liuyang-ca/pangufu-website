@@ -309,7 +309,7 @@ a:focus-visible {
   overflow: hidden;
   border: 1px solid #ffffff14;
   border-radius: 13px;
-  background: #0b0c0b;
+  background: linear-gradient(145deg, #191b17, #141612);
 }
 
 .app-shot img {
