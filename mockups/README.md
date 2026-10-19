@@ -11,4 +11,4 @@ Open [the comparison index](index.html), then choose a preview. Both pages have 
 
 These are company-only concepts. Their illustrations are CSS decoration; there are no product screenshots, app availability claims, or app-specific links.
 
-Desktop and mobile viewport captures and full-page captures are saved in `../output/playwright/`.
+Desktop and mobile viewport captures and full-page captures are saved locally in `../output/playwright/` (git-ignored).

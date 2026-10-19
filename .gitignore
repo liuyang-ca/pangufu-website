@@ -1,3 +1,6 @@
 .playwright-cli/
 _site/
 .playwright-mcp/
+*.iml
+.idea/
+output/
