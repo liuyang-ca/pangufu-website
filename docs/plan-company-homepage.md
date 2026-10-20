@@ -29,9 +29,10 @@ is authorized by this build request.
 - Purrcade's listing copy is in that repo's `docs/app-store-listing.md`. Treat
   recorded release status as historical; verify public availability before using
   an App Store download call to action.
-- The existing privacy URL is `https://liuyang-ca.github.io/purrcade/privacy.html`;
-  its source lives in the separate public `liuyang-ca/purrcade` repo. This plan
-  does not move that page or change its existing URL.
+- Privacy policy hosting was extended after the initial homepage build: the
+  canonical Purrcade URL is `https://pangufu.ca/purrcade/privacy.html`, with policies
+  for all three apps staged by the Pages workflow. See `README.md` for paths and
+  source files. Keep the original public policy repositories for older app versions.
 
 ## Content and boundaries
 
@@ -123,9 +124,10 @@ success with no console errors. If decorative images are added later, compress t
 lazy-load below-fold images. Target at most 1 MB initial transfer for the homepage.
 Check company name, support address, the featured app description and release label before release.
 
-Prepare `.github/workflows/pages.yml` to stage only `index.html`, `styles.css`
-and `assets/` into a clean `_site/` directory, adding any production JavaScript
-explicitly if introduced. Upload only `_site/` with GitHub Pages Actions; never
+Prepare `.github/workflows/pages.yml` to stage `index.html`, `styles.css`,
+`assets/`, `purrcade/`, `blackjack-video-poker-coach/` and `citizen-coach-privacy/`
+into a clean `_site/` directory, adding any production JavaScript explicitly if
+introduced. Upload only `_site/` with GitHub Pages Actions; never
 upload the repository root. Ignore `_site/` in Git. This excludes mockups, docs
 and review evidence from the public artifact. Set workflow permissions to contents
 read, pages write and id-token write; use the GitHub Pages deployment environment.
@@ -303,3 +305,18 @@ required for this single styling change; no automated tests added under the
 personal-project testing policy. Scope: styles.css and this review record;
 unrelated IDE file excluded. Initial review snapshot:
 `983bddf8893cfa5d5a0daa76e9a097bdfd071485`. Auto authorizes commit and push.
+
+
+## Privacy URL migration review — 2026-10-19
+
+Policies for Purrcade, Blackjack & Video Poker Coach, and Canada Citizenship Test
+Coach now have canonical paths under `https://pangufu.ca/`. The Pages artifact
+includes each policy directory; policy content is unchanged from the app sources.
+The homepage links to the CardTrainer policy on the company domain. Original
+public policy repositories remain available for older app versions.
+
+One MEDIUM finding fixed: deployment instructions now include the policy
+directories. Verification: staged pages return HTTP 200 and match their sources;
+CitizenCoach retains English and French. No fresh pass or fingerprint stamp is
+required for this small static hosting change. Deployment must precede release of
+app builds and App Store Connect metadata using these URLs.

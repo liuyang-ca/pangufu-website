@@ -10,5 +10,6 @@ deployed to GitHub Pages by `.github/workflows/pages.yml`. Plan:
   directly on `main`, no branches or PRs. Push only when the developer asks.
   This opts the repo out of the global block-trunk-commit guard — marker, do not
   remove: `claude:allow-trunk-commit`
-- Only `index.html`, `styles.css` and `assets/` are published. `mockups/`, `docs/`
-  and the git-ignored `output/` are not.
+- Published files: `index.html`, `styles.css`, `assets/`, and the privacy policy
+  directories `purrcade/`, `blackjack-video-poker-coach/`, `citizen-coach-privacy/`.
+  `mockups/`, `docs/` and the git-ignored `output/` are not published.

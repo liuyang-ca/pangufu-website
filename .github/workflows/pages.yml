@@ -26,7 +26,7 @@ jobs:
         run: |
           mkdir _site
           cp index.html styles.css _site/
-          cp -R assets _site/assets
+          cp -R assets purrcade blackjack-video-poker-coach citizen-coach-privacy _site/
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5
         with:
