@@ -1,6 +1,6 @@
 # SEO pages: free practice tests that lead to the apps
 
-Status: Phases 1–3 built and reviewed 2026-10-22, committed, not pushed (French copy unreviewed by a French speaker). Phase 4 is the developer's; Phase 5 not started. Supersedes the single-app layout of
+Status: Phases 1–3 built and reviewed 2026-10-22, committed (`2db9f10`), not pushed. Phase 3b (developer feedback) built and reviewed 2026-10-22, committed, not pushed (French copy unreviewed by a French speaker). Phase 4 is the developer's; Phase 5 not started. Supersedes the single-app layout of
 `docs/plan-company-homepage.md` (that plan stays as history).
 
 ## Goal
@@ -134,6 +134,80 @@ CitizenCoach pages use the app's lake-blue accent (`#1F4E8C`, `#3E8EF0` on dark,
 - **Done when:** every English page has its French pair and back-links; the developer
   reads the French copy (no French speaker available, so note it as unreviewed).
 
+### Phase 3b: Make the two apps consistent and fill the home page
+
+Developer feedback on the local preview, 2026-10-22: the text reads too big on the new
+pages; the two apps are shown differently (status, tag line, button, app page); the
+citizenship pages have no screenshots; the home page is thin now that the CardTrainer
+screenshots moved off it. Builds on Phases 1–3 (commit `2db9f10`).
+
+1. **Smaller headings on content pages only.** Add `content-page` to the `<body>` class
+   of every page that loads `styles.css`, except `/` (the citizenship pages already have
+   `class="theme-citizen"`; the three privacy pages carry their own styles and are left
+   alone). Under it, `.page-intro h1` is `clamp(30px, 4.5vw, 44px)` (today
+   `clamp(32px, 6vw, 56px)`) and every `h2` (`.section-heading`, `.support`,
+   `.principles`, `.prose`) is `clamp(24px, 3vw, 32px)` (today `clamp(36px, 4vw, 48px)`,
+   `.prose` `clamp(28px, 4vw, 36px)`, and 38–39px under 800px). Put the rule after the
+   `max-width: 800px` block, with a selector that outranks those, e.g.
+   `.content-page :is(.section-heading, .support, .principles, .prose) h2`, so it holds
+   at every width. Body text and the home page are unchanged. Chapter pages get the
+   class from the main page's shell (`chapter_page()` in `tools/make_citizenship_pages.py`
+   copies everything up to `<main>`).
+2. **One status for both apps:** "Coming soon" on home cards, "Coming soon to the App
+   Store" on app pages, "Bientôt sur l’App Store" in French (curly apostrophe, as the
+   pages have it today). CardTrainer's page and card drop "In development". Neither app
+   is on the App Store yet.
+3. **One card pattern on the home page** (`index.html`, both cards the same):
+   - Tag line: `Study · iPhone & iPad` (CitizenCoach), `Learn · iPhone & iPad`
+     (CardTrainer). "English and French" moves into CitizenCoach's description.
+   - Primary button `About the app →`: CitizenCoach to `/canada-citizenship-test/#app`,
+     CardTrainer to `/blackjack-video-poker-coach/`.
+   - CitizenCoach adds a text link `Free practice test →` to `/canada-citizenship-test/`.
+     CardTrainer gets none until Phase 5's chart exists.
+   - One captioned screenshot in each card, as on the old home page:
+     `assets/citizencoach-study.jpg` and the existing `assets/cardtrainer-practice.jpg`.
+   - Layout: one card per row, full width, with the CardTrainer page's featured-card
+     markup (`.app-card` holding `.feature-copy` and `figure.app-shot`), so desktop shows
+     copy left and image right and mobile stacks them. Drop `app-card-simple` and the
+     two-column `.app-grid` on the home page; two image cards side by side are too
+     narrow.
+4. **One shared-values strip on the home page**, between the apps and support, true of
+   both apps (checked against both privacy policies and listings, 2026-10-22): free to
+   start, one purchase with no subscription, no ads, no account, no data collected.
+   Reuse the `.principles` section style already in `styles.css`. No invented numbers
+   or reviews.
+5. **Same app section on both apps' pages.** The citizenship main page's app block (the
+   `apps-section`, which the generator copies into every chapter page) takes the
+   CardTrainer page's structure, with `id="app"`: a featured card (icon, tag line, name,
+   description, three feature points, purchase note, status, privacy link, one
+   screenshot), then a `training-section` with two panels, each with one screenshot.
+   Facts come from `../citizencoach/docs/app-store-listing.md` only; French wording
+   follows its French listing. Theme stays lake blue.
+   - Tag line `Study · iPhone & iPad` / `Étude · iPhone et iPad`, as on the home card.
+   - Feature points: all 11 chapters of the guide plus your province or territory;
+     study and listen in English or French; timed mock tests of 20 questions in 45
+     minutes, with every answer explained.
+   - Purchase note: free to start with the first three chapters and two mock tests; one
+     purchase unlocks everything, no subscription.
+   - Panels, in `.training-card` markup with `mode-number`, `app-kind`, `h3`, one
+     sentence and the screenshot; no SVG icon and no `mode-detail` line (nothing to claim
+     there). 01: section quizzes, a quiz after each section with a short explanation for
+     every answer (`03-quiz`). 02: readiness by chapter, which parts of the guide you
+     already know (`05-readiness`).
+6. **Screenshots** from `../citizencoach/scratch/appstore-screenshots/captioned/<lang>/iphone/`:
+   `01-study.png` (featured), `03-quiz.png` and `05-readiness.png` (panels). English pages
+   use `en`, French pages `fr`. Save as `assets/citizencoach-<name>.jpg` and
+   `assets/citizencoach-<name>-fr.jpg`, 680 px wide, JPEG quality 84, like CardTrainer's,
+   and add each to `docs/assets.md` with its source. Look at each image for personal
+   information before copying. Descriptive `alt` text in the page's language.
+7. Re-run the generator for both languages so chapter pages pick up items 1, 2, 5 and 6.
+
+- **Done when:** the generator tests pass; both home cards have the same parts in the same
+  order; every page states the same status; the homepage plan's local checks pass on `/`,
+  both citizenship main pages, one chapter page and the CardTrainer page (Chromium
+  1440×1000, 390×844, 320 px with no horizontal scroll, 200% text zoom, no broken links or
+  images); each new image is under 200 KB.
+
 ### Phase 4: Launch tasks (developer, outside this repo)
 
 1. Verify `pangufu.ca` in **Google Search Console** (DNS TXT record) and submit
@@ -184,3 +258,17 @@ Blog, paid ads, analytics scripts, accounts, comments, chapters 4–11 on the si
   push"): they preview the pages locally (`python3 -m http.server 8000` in the repo root)
   before a push to `main` publishes them through GitHub Pages. The new pages say "Coming
   soon", with no App Store link.
+
+## Run decisions (`/impl-plan auto`, Phase 3b, 2026-10-22)
+
+- **Build Phase 3b only** (`phases=3b`); Phases 1–3 are committed in `2db9f10`.
+- **Commit, do not push** still holds: the developer previews before a push publishes the
+  site. Report the push command instead.
+- **Study screenshots at JPEG quality 68**, not 84: at 84 they were 247 KB and 262 KB,
+  over the 200 KB limit. The other four are quality 84. `docs/assets.md` records it.
+- **Home cards in `.app-list`** (one column) with a `.card-actions` row for the button and
+  text link; `.app-grid` and `.app-card-simple` had no other user and are removed.
+- **Panel labels keep clear of the number:** `.training-card .app-kind` gets right padding,
+  since the citizenship panels have no icon and a wrapped label could run under "01".
+- **Home values strip leaves out "progress stays on your device"**: not checked for
+  CardTrainer, so only the facts true of both apps are stated.
