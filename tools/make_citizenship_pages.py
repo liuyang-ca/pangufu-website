@@ -51,13 +51,14 @@ COPY_EN = {
     "sample_intro": "Try these ten with no timer. Open “Show answer” to check each one.",
     "chapters_h2": "Practice by chapter",
     "chapters_intro": "Every question in each free chapter, with answers and explanations.",
-    "quiz_h2": "Timed practice test",
+    "quiz_h2": "Practice test",
     "quiz_intro": (
-        "20 random questions from the three free chapters, one at a time, in 45 minutes. "
-        "You need 15 correct to pass, like the real test."
+        "Start with a quick 5-question quiz, or take the full test: 20 random questions from "
+        "the three free chapters in 45 minutes. You need 15 correct to pass, like the real test."
     ),
-    "quiz_noscript": "The timed test needs JavaScript. The sample questions and chapter pages work without it.",
-    "quiz_start": "Start practice test",
+    "quiz_noscript": "The practice test needs JavaScript. The sample questions and chapter pages work without it.",
+    "quiz_quick": "Quick quiz: 5 questions",
+    "quiz_full": "Full test: 20 questions, 45 minutes",
     "quiz_time": "Time left:",
     "quiz": {
         "progress": "Question {n} of {total}",
@@ -67,6 +68,8 @@ COPY_EN = {
         "pass": "Pass. The real test needs 15 correct answers out of 20.",
         "fail": "Not a pass yet. The real test needs 15 correct answers out of 20.",
         "timeUp": "Time is up. Unanswered questions count as wrong.",
+        "quickDone": "That was a quick quiz. The full test has 20 questions in 45 minutes, like the real one.",
+        "fullTest": "Take the full 20-question test",
         "review": "Questions to review",
         "notCorrect": "Not correct",
         "yours": "Your answer:",
@@ -77,7 +80,7 @@ COPY_EN = {
             "province, in English and French, with audio."
         ),
         "soon": "Coming soon to the App Store",
-        "again": "Try another test",
+        "again": "Try another",
     },
 }
 
@@ -109,16 +112,18 @@ COPY_FR = {
     ),
     "chapters_h2": "Pratique par chapitre",
     "chapters_intro": "Toutes les questions de chaque chapitre gratuit, avec réponses et explications.",
-    "quiz_h2": "Test pratique chronométré",
+    "quiz_h2": "Test pratique",
     "quiz_intro": (
-        "20 questions tirées au hasard dans les trois chapitres gratuits, une à la fois, en "
-        "45 minutes. Il faut 15 bonnes réponses pour réussir, comme à l’examen réel."
+        "Commencez par un quiz rapide de 5 questions, ou faites le test complet : 20 questions "
+        "tirées au hasard dans les trois chapitres gratuits, en 45 minutes. Il faut 15 bonnes "
+        "réponses pour réussir, comme à l’examen réel."
     ),
     "quiz_noscript": (
-        "Le test chronométré demande JavaScript. Les exemples de questions et les pages par "
+        "Le test pratique demande JavaScript. Les exemples de questions et les pages par "
         "chapitre fonctionnent sans."
     ),
-    "quiz_start": "Commencer le test pratique",
+    "quiz_quick": "Quiz rapide : 5 questions",
+    "quiz_full": "Test complet : 20 questions, 45 minutes",
     "quiz_time": "Temps restant\u00a0:",
     "quiz": {
         "progress": "Question {n} sur {total}",
@@ -128,6 +133,11 @@ COPY_FR = {
         "pass": "Réussi. L’examen réel exige 15 bonnes réponses sur 20.",
         "fail": "Pas encore réussi. L’examen réel exige 15 bonnes réponses sur 20.",
         "timeUp": "Le temps est écoulé. Les questions sans réponse comptent comme fausses.",
+        "quickDone": (
+            "C’était un quiz rapide. Le test complet compte 20 questions en 45 minutes, comme "
+            "l’examen réel."
+        ),
+        "fullTest": "Faire le test complet de 20 questions",
         "review": "Questions à revoir",
         "notCorrect": "Incorrect",
         "yours": "Votre réponse\u00a0:",
@@ -138,7 +148,7 @@ COPY_FR = {
             "province, en français et en anglais, avec audio."
         ),
         "soon": "Bientôt sur l’App Store",
-        "again": "Faire un autre test",
+        "again": "Recommencer",
     },
 }
 
@@ -165,14 +175,15 @@ LANGS = {
 
 QUIZ_JS = r"""
 var all = JSON.parse(document.getElementById('question-data').textContent);
-var N = 20, PASS = 15, MINUTES = 45;
+var PASS = 15, MINUTES = 45;
 var startBox = document.getElementById('quiz-start');
 var runBox = document.getElementById('quiz-run');
 var form = document.getElementById('quiz-form');
 var out = document.getElementById('quiz-result');
 var progress = document.getElementById('quiz-progress');
+var clock = document.getElementById('quiz-clock');
 var timeEl = document.getElementById('quiz-time');
-var run, idx, picks, endAt, tick;
+var run, idx, picks, endAt, tick, full;
 
 function el(tag, text, cls) {
   var e = document.createElement(tag);
@@ -218,16 +229,21 @@ function update() {
   if (left === 0) finish(true);
 }
 
-function start() {
-  run = shuffle(all).slice(0, N);
+// The quick quiz has 5 questions and no timer; the full test mirrors the real one.
+function start(isFull) {
+  full = isFull;
+  run = shuffle(all).slice(0, full ? 20 : 5);
   idx = 0; picks = [];
   clear(out);
   startBox.hidden = true;
   runBox.hidden = false;
-  endAt = Date.now() + MINUTES * 60000;
+  clock.hidden = !full;
   clearInterval(tick);
-  tick = setInterval(update, 1000);
-  update();
+  if (full) {
+    endAt = Date.now() + MINUTES * 60000;
+    tick = setInterval(update, 1000);
+    update();
+  }
   show();
 }
 
@@ -240,7 +256,7 @@ function finish(timedOut) {
   var h = el('h3', fill(T.score, { score: score, total: run.length }));
   h.tabIndex = -1;
   out.appendChild(h);
-  out.appendChild(el('p', score >= PASS ? T.pass : T.fail, 'verdict'));
+  out.appendChild(el('p', full ? (score >= PASS ? T.pass : T.fail) : T.quickDone, 'verdict'));
   if (timedOut) out.appendChild(el('p', T.timeUp));
   if (wrong.length) {
     out.appendChild(el('h4', T.review));
@@ -259,10 +275,18 @@ function finish(timedOut) {
   soon.appendChild(el('span'));
   soon.appendChild(document.createTextNode(T.soon));
   out.appendChild(soon);
-  var again = el('button', T.again, 'button primary');
+  var actions = el('div', '', 'quiz-actions');
+  if (!full) {
+    var toFull = el('button', T.fullTest, 'button primary');
+    toFull.type = 'button';
+    toFull.addEventListener('click', function () { start(true); });
+    actions.appendChild(toFull);
+  }
+  var again = el('button', T.again, full ? 'button primary' : 'button secondary');
   again.type = 'button';
-  again.addEventListener('click', start);
-  out.appendChild(again);
+  again.addEventListener('click', function () { start(full); });
+  actions.appendChild(again);
+  out.appendChild(actions);
   h.focus();
 }
 
@@ -271,7 +295,8 @@ form.addEventListener('submit', function (e) {
   picks[idx] = +form.querySelector('input:checked').value;
   if (++idx < run.length) show(); else finish(false);
 });
-document.getElementById('quiz-start-btn').addEventListener('click', start);
+document.getElementById('quiz-quick-btn').addEventListener('click', function () { start(false); });
+document.getElementById('quiz-full-btn').addEventListener('click', function () { start(true); });
 document.getElementById('quiz-app').hidden = false;
 """
 
@@ -362,12 +387,15 @@ def main_block(cfg, chapters, questions):
   <p>{esc(copy['quiz_intro'])}</p>
   <noscript><p>{esc(copy['quiz_noscript'])}</p></noscript>
   <div id="quiz-app" hidden>
-    <div id="quiz-start"><button type="button" class="button primary" id="quiz-start-btn">{esc(copy['quiz_start'])}</button></div>
+    <div id="quiz-start" class="quiz-actions">
+      <button type="button" class="button primary" id="quiz-quick-btn">{esc(copy['quiz_quick'])}</button>
+      <button type="button" class="button secondary" id="quiz-full-btn">{esc(copy['quiz_full'])}</button>
+    </div>
     <div id="quiz-run" hidden>
-      <p class="quiz-timer"><span id="quiz-progress"></span> &middot; {esc(copy['quiz_time'])} <span id="quiz-time">45:00</span></p>
+      <p class="quiz-timer"><span id="quiz-progress"></span><span id="quiz-clock"> &middot; {esc(copy['quiz_time'])} <span id="quiz-time">45:00</span></span></p>
       <form id="quiz-form"></form>
     </div>
-    <div id="quiz-result" aria-live="polite"></div>
+    <div id="quiz-result"></div>
   </div>
 </section>
 <section class="prose" aria-labelledby="sample-title">

@@ -1,6 +1,6 @@
 # SEO pages: free practice tests that lead to the apps
 
-Status: Phases 1–3 built and reviewed 2026-10-22, committed (`2db9f10`), not pushed. Phase 3b (developer feedback) built and reviewed 2026-10-22, committed, not pushed (French copy unreviewed by a French speaker). Phase 4 is the developer's; Phase 5 not started. Supersedes the single-app layout of
+Status: Phases 1–3 built and reviewed 2026-10-22, committed (`2db9f10`), not pushed. Phase 3b (developer feedback) built and reviewed 2026-10-22, committed, not pushed (French copy unreviewed by a French speaker). Phase 3c (home page app sections) built and reviewed 2026-10-22, uncommitted on disk with the quick quiz, for the developer's preview. Whole change (`2db9f10`, `118cd13` and the uncommitted work) reviewed and security-reviewed 2026-10-22 before publishing. Phase 4 is the developer's; Phase 5 not started. Supersedes the single-app layout of
 `docs/plan-company-homepage.md` (that plan stays as history).
 
 ## Goal
@@ -57,7 +57,7 @@ multi-app site, keeping the Studio shell (nav, footer, `styles.css` tokens).
 
 | URL | Page |
 | --- | --- |
-| `/` | Company intro plus one card per app (CitizenCoach first, then CardTrainer). Each card links to its app page. |
+| `/` | Company intro plus one section per app with three screenshots (CitizenCoach first, then CardTrainer; Phase 3c). Each links to its app page. |
 | `/canada-citizenship-test/` | **Main SEO page.** "Free Canadian Citizenship Practice Test (2026)": a 20-question timed quiz, how the real test works, and a block about the app. |
 | `/canada-citizenship-test/<chapter>/` | One page per free chapter (3): every question in that chapter, answers behind "Show answer". Long-tail searches such as "citizenship test history questions". |
 | `/fr/examen-citoyennete-canadienne/` and `/fr/examen-citoyennete-canadienne/<chapter>/` | The same in French. |
@@ -87,8 +87,10 @@ CitizenCoach pages use the app's lake-blue accent (`#1F4E8C`, `#3E8EF0` on dark,
 ## Quiz behaviour (`/canada-citizenship-test/`)
 
 - Mirrors the real test as the app describes it: 20 questions, 45 minutes, pass at 15 of 20.
-- "Start practice test" draws 20 random questions from the free chapters, shows one at a
-  time, then a score with every wrong answer, the right one and its explanation.
+- Two starts (developer feedback, 2026-10-22): "Quick quiz: 5 questions" first, with no
+  timer, and "Full test: 20 questions, 45 minutes". Both draw random questions from the
+  free chapters, show one at a time, then a score with every wrong answer, the right one
+  and its explanation. The quick quiz's result offers the full test.
 - The result screen points to the app: "This test used 3 of 11 chapters. The app covers
   all 11 chapters and your province, in English and French, with audio." Until the app is
   live, the button reads "Coming soon to the App Store" with no link (README rule: verify
@@ -208,6 +210,55 @@ screenshots moved off it. Builds on Phases 1–3 (commit `2db9f10`).
   1440×1000, 390×844, 320 px with no horizontal scroll, 200% text zoom, no broken links or
   images); each new image is under 200 KB.
 
+### Phase 3c: A full section for each app on the home page
+
+Developer feedback, 2026-10-22: the home page still has too little content. Builds on
+Phase 3b and on two uncommitted changes already on disk, which this phase keeps: the
+CitizenCoach home card shows `assets/citizencoach-readiness.jpg`, and the citizenship
+pages offer a 5-question quick quiz before the 20-question test (see "Quiz behaviour").
+
+1. **One section per app replaces the two cards** in `index.html`'s `#apps` section, in
+   the same order (CitizenCoach, then CardTrainer). Each is an `<article>` inside `#apps`
+   (as the Phase 3b cards are), full width of the page column, with its own id,
+   `#citizenship` and `#blackjack`. Above 800 px the copy and the screenshot row sit side
+   by side and the side alternates: first app's screenshots on the right, second app's on
+   the left. At 800 px and below the row goes under the copy.
+2. **Each section holds, in this order, with the existing classes:** `.card-top` (app
+   icon, tag line in Phase 3b wording, app name as `h3`), a two-sentence pitch
+   (`.app-description`), three short feature points (`.feature-points`), `.card-actions`
+   (`About the app →` for both, plus `Free practice test →` for CitizenCoach, same targets
+   as Phase 3b item 3), then `.card-bottom` (status "Coming soon" and the privacy link).
+   This is the Phase 3b card order with the feature points added.
+3. **Three screenshots in a row** per app, all already on the site:
+   CitizenCoach `citizencoach-readiness.jpg`, `citizencoach-quiz.jpg`,
+   `citizencoach-study.jpg`; CardTrainer `cardtrainer-practice.jpg`,
+   `cardtrainer-counting.jpg`, `cardtrainer-video-poker.jpg`. `alt` text: the readiness
+   and practice images keep the `alt` they have on `/` today; the other four take theirs
+   from the app page that shows them. `loading="lazy"`, `width`/`height` as on the app
+   pages. Three equal columns at every width, never stacked and never a sideways-scrolling
+   row (the page rule bans horizontal scroll); at 320 px they are small, which is fine:
+   the app page shows them large.
+4. **Home-only styles.** `.app-card`, `.feature-copy` and `.app-shot` are shared with the
+   app pages' featured cards. Add a home-only class to the two articles and style the new
+   layout through it; change no rule the app pages use. Remove `.app-list` styles only if
+   nothing else uses them.
+5. **Summary text, not copies.** The pitch and feature points are written fresh for the
+   home page and stay short. Do not paste paragraphs from the app pages: the same text on
+   `/` and `/canada-citizenship-test/` would make the two compete in search. Facts come
+   only from the app pages and `../citizencoach/docs/app-store-listing.md` /
+   `../cardtrainer/docs/app-store-listing.md`.
+6. **Jump links.** The hero's `Explore our apps ↓` stays on `#apps`. Under the "Our apps"
+   heading, add two text links that jump to `#citizenship` and `#blackjack`. The nav keeps
+   `Apps` and `Support`.
+7. **Keep** the shared-values strip and the support section after the apps, unchanged.
+   No new images, no new claims, no numbers or reviews.
+
+- **Done when:** both app sections have the same parts in the same order; the jump links
+  land on each section; no text paragraph is repeated word for word from an app page; the
+  homepage plan's local checks pass on `/` (Chromium 1440×1000, 390×844, 320 px with no
+  horizontal scroll, 200% text zoom, no broken links or images); the CardTrainer page and
+  the English citizenship main page look as before at 1440 and 390 px.
+
 ### Phase 4: Launch tasks (developer, outside this repo)
 
 1. Verify `pangufu.ca` in **Google Search Console** (DNS TXT record) and submit
@@ -272,3 +323,16 @@ Blog, paid ads, analytics scripts, accounts, comments, chapters 4–11 on the si
   since the citizenship panels have no icon and a wrapped label could run under "01".
 - **Home values strip leaves out "progress stays on your device"**: not checked for
   CardTrainer, so only the facts true of both apps are stated.
+
+## Run decisions (`/impl-plan auto`, Phase 3c, 2026-10-22)
+
+- **Build Phase 3c only** (`phases=3c`).
+- **No commit and no push** (developer, 2026-10-22). The run leaves its changes on disk
+  together with the quick-quiz and home-card changes, for the developer to preview.
+- **Plan review settled the layout** (`/review-loop doc auto`): screenshots beside the
+  copy above 800 px, alternating sides, under it at 800 px and below; three across at
+  every width, never stacked; Phase 3b's card order plus feature points; a home-only
+  class so the app pages' featured cards are untouched.
+- **Built inline**, one small phase: home-only classes `.app-feature`, `.app-shots` and
+  `.app-jump` (a `nav` under the heading); the second section swaps its column widths
+  so the screenshots keep the wider column on the left.

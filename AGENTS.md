@@ -15,3 +15,7 @@ deployed to GitHub Pages by `.github/workflows/pages.yml`. Plans:
   `purrcade/`, `blackjack-video-poker-coach/` (app page plus privacy policy),
   `citizen-coach-privacy/`.
   `mockups/`, `docs/` and the git-ignored `output/` are not published.
+- Generated, never hand-edited: the citizenship chapter pages, the `generated:questions`
+  block of both citizenship main pages, and the citizenship URLs in `sitemap.xml`. Edit
+  `tools/make_citizenship_pages.py` and re-run it (default English, then `--lang fr`).
+  Test: `python3 -m unittest discover -s tools -p 'test_*.py'`.

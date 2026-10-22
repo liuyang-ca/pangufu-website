@@ -27,6 +27,9 @@ body {
 
 a { color: inherit; }
 
+/* Class rules such as .quiz-actions { display: flex } would otherwise show a hidden element. */
+[hidden] { display: none !important; }
+
 a:focus-visible {
   outline: 3px solid var(--accent);
   outline-offset: 5px;
@@ -572,6 +575,41 @@ footer {
 
 .card-actions .text-link { font-size: 14px; }
 
+/* Home page: one full section per app with three screenshots; the app pages' featured cards keep the rules above. */
+.app-jump {
+  margin: -8px 0 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+}
+
+.app-jump .text-link { font-size: 14px; }
+
+.app-feature {
+  padding: 28px;
+  grid-template-columns: .9fr 1.1fr;
+  gap: 32px;
+}
+
+.app-feature:nth-child(even) { grid-template-columns: 1.1fr .9fr; }
+
+.app-feature:nth-child(even) .app-shots { order: -1; }
+
+.app-shots {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.app-shots img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid #ffffff14;
+  border-radius: 10px;
+}
+
 .notice-section { padding-block: 0 40px; }
 
 .notice {
@@ -611,6 +649,10 @@ footer {
   .app-shot { max-height: 520px; }
   .app-shot img { max-height: 520px; }
   .card-bottom { align-items: flex-start; flex-direction: column; }
+  .app-feature { padding: 18px; gap: 20px; }
+  .app-feature:nth-child(even) { grid-template-columns: 1fr; }
+  .app-feature:nth-child(even) .app-shots { order: 0; }
+  .app-shots { gap: 8px; }
   .training-section { padding-block: 52px 58px; }
   .training-grid { gap: 12px; }
   .training-card { min-height: 310px; padding: 19px 17px; }
@@ -722,6 +764,8 @@ footer {
 
 button.button { border: 0; font-family: inherit; cursor: pointer; }
 button.button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+.button.secondary { border: 1px solid #ffffff40; background: transparent; color: var(--ink); }
+.quiz-actions { display: flex; flex-wrap: wrap; gap: 0 12px; }
 .quiz-timer { margin: 18px 0 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
 .choice { margin-top: 8px; padding: 12px 14px; display: flex; gap: 12px; align-items: flex-start; border: 1px solid #ffffff18; border-radius: 10px; cursor: pointer; }
 .choice input { margin: 5px 0 0; flex: none; accent-color: var(--accent); }
