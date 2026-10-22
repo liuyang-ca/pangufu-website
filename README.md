@@ -12,9 +12,29 @@ python3 -m http.server 8000
 
 Then open <http://localhost:8000>.
 
+## Citizenship practice pages
+
+`canada-citizenship-test/<chapter>/index.html` and the block between the
+`generated:questions` markers in `canada-citizenship-test/index.html` (and the same pages under
+`fr/examen-citoyennete-canadienne/`, in French) are generated from the
+app's question files (free chapters only, no `current` questions), and so is the
+citizenship part of `sitemap.xml`. Do not edit those by hand. After the app's questions
+change, run from this directory, then check the diff:
+
+```sh
+python3 tools/make_citizenship_pages.py            # English, reads ../citizencoach/.../Resources
+python3 tools/make_citizenship_pages.py --lang fr  # French
+python3 tools/make_citizenship_pages.py --resources <folder with questions-*.json and sections-*.json>
+python3 -m unittest tools/test_make_citizenship_pages.py
+```
+
+The two hand-written main pages carry the hreflang alternates and the language switch; the
+generator points the chapter pages' own alternates at their translation. The French copy has
+not been reviewed by a French speaker. `tools/` is not published.
+
 ## Hosting
 
-The Pages workflow stages `index.html`, `styles.css`, `assets/`, and the three privacy policy directories into `_site/`, then deploys that directory with GitHub Pages Actions. Configure the repository's Pages source to **GitHub Actions**. The canonical domain is `https://pangufu.ca/`.
+The Pages workflow stages `index.html`, `styles.css`, `robots.txt`, `sitemap.xml`, `assets/`, the app page directories `canada-citizenship-test/`, `fr/` and `blackjack-video-poker-coach/`, and the two other privacy policy directories (`purrcade/`, `citizen-coach-privacy/`) into `_site/`, then deploys that directory with GitHub Pages Actions. Configure the repository's Pages source to **GitHub Actions**. The canonical domain is `https://pangufu.ca/`.
 
 Pages must be enabled in the repository before the workflow can run. For a new
 repository, enable it under Settings → Pages → Source → GitHub Actions, or run
@@ -31,6 +51,8 @@ The website can launch while the app is in development. Before replacing that la
 | Purrcade (catgame) | https://pangufu.ca/purrcade/privacy.html | `../catgame/docs/privacy.html` |
 | Blackjack & Video Poker Coach (cardtrainer) | https://pangufu.ca/blackjack-video-poker-coach/privacy.html | `../cardtrainer/docs/privacy.html` |
 | Canada Citizenship Test Coach (citizencoach) | https://pangufu.ca/citizen-coach-privacy/privacy.html | `../citizencoach/docs/privacy.html` |
+
+The Blackjack & Video Poker Coach directory also holds its app page (`index.html`); only `privacy.html` is copied from the app repository. `purrcade/privacy.html` is published for App Store Connect, but the site has no Purrcade page or card.
 
 Copy each source policy into its matching directory here when its content changes.
 Deploy these pages before releasing app builds or saving App Store Connect metadata

@@ -21,6 +21,8 @@ body {
   background: var(--bg);
   color: var(--ink);
   font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  /* Long French words ("chronométré") must wrap at 320 px with doubled text. */
+  overflow-wrap: anywhere;
 }
 
 a { color: inherit; }
@@ -37,7 +39,7 @@ a:focus-visible {
 }
 
 .topbar {
-  height: 76px;
+  min-height: 76px;
   border-bottom: 1px solid #ffffff12;
   display: flex;
   align-items: center;
@@ -47,6 +49,10 @@ a:focus-visible {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  /* Large text or a third link wraps instead of scrolling the page sideways. */
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  padding-block: 8px;
 }
 
 .brand {
@@ -58,8 +64,9 @@ a:focus-visible {
 
 .nav-links {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 26px;
+  gap: 8px 26px;
 }
 
 .nav-links a {
@@ -90,7 +97,7 @@ a:focus-visible {
   align-items: center;
 }
 
-.copy { max-width: 650px; }
+.copy { min-width: 0; max-width: 650px; }
 
 .eyebrow,
 .app-kind {
@@ -108,6 +115,7 @@ a:focus-visible {
   font-weight: 740;
   line-height: .99;
   letter-spacing: -.04em;
+  overflow-wrap: break-word;
 }
 
 .intro-text {
@@ -340,10 +348,10 @@ a:focus-visible {
   border-radius: 99px;
   color: #d3d6cb;
   font-size: 12px;
-  white-space: nowrap;
 }
 
 .status span {
+  flex: none;
   width: 7px;
   height: 7px;
   border-radius: 50%;
@@ -491,7 +499,6 @@ a:focus-visible {
   font-size: clamp(23px, 3vw, 36px);
   letter-spacing: -.03em;
   text-decoration: none;
-  white-space: nowrap;
 }
 
 .email span {
@@ -527,6 +534,62 @@ footer {
 .footer-links { display: flex; gap: 18px; }
 .footer-links a { color: #b6baaf; text-underline-offset: 3px; }
 
+/* CitizenCoach pages and cards use the app's lake blue; the dark variant has the contrast on this background. */
+.theme-citizen { --accent: #3E8EF0; }
+.theme-citizen .status span { box-shadow: 0 0 10px #3E8EF055; }
+
+.page-intro { padding-block: 54px 48px; }
+
+.page-intro h1 {
+  max-width: 17em;
+  margin: 14px 0 16px;
+  font-size: clamp(32px, 6vw, 56px);
+  font-weight: 740;
+  line-height: 1.05;
+  letter-spacing: -.035em;
+  overflow-wrap: break-word;
+}
+
+.page-intro .intro-text { max-width: 560px; }
+
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.app-card-simple {
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  align-content: start;
+  gap: 0;
+}
+
+.app-card-simple .button { justify-self: start; }
+
+.notice-section { padding-block: 0 40px; }
+
+.notice {
+  margin: 0;
+  padding: 16px 18px;
+  border: 1px solid #ffffff18;
+  border-left: 4px solid var(--accent);
+  border-radius: 10px;
+  background: var(--panel);
+  color: #d3d6cb;
+}
+
+.notice a { color: var(--accent); }
+
+.prose { padding-block: 0 48px; }
+
+.prose h2 {
+  margin: 0 0 14px;
+  font-size: clamp(28px, 4vw, 36px);
+  line-height: 1.1;
+  letter-spacing: -.03em;
+}
+
 @media (max-width: 800px) {
   .wrap { width: min(100% - 40px, var(--max)); }
   .intro {
@@ -538,7 +601,9 @@ footer {
   .intro h1 { font-size: clamp(48px, 8vw, 68px); }
   .intro-text { font-size: 17px; }
   .mark { height: 210px; }
+  .app-grid { grid-template-columns: minmax(0, 1fr); }
   .app-card { padding: 18px; grid-template-columns: 1fr; gap: 16px; }
+  .app-card-simple { gap: 0; }
   .app-title h3 { font-size: 19px; }
   .app-shot { max-height: 520px; }
   .app-shot img { max-height: 520px; }
@@ -553,7 +618,7 @@ footer {
 
 @media (max-width: 600px) {
   .wrap { width: calc(100% - 36px); }
-  .topbar { height: 68px; }
+  .topbar { min-height: 68px; }
   .brand { font-size: 13px; letter-spacing: .12em; }
   .nav-links { gap: 12px; }
   .nav-links a { font-size: 13px; }
@@ -625,3 +690,36 @@ footer {
   *::before,
   *::after { transition: none !important; animation: none !important; }
 }
+
+/* Practice questions: native fieldset, list and details, so every question reads without JavaScript. */
+.question {
+  min-width: 0;
+  margin: 0 0 14px;
+  padding: 14px 18px 8px;
+  border: 1px solid #ffffff18;
+  border-radius: 10px;
+  background: var(--panel);
+}
+
+/* Floated so a wrapped legend sits inside the box instead of across its top border. */
+.question legend { float: left; width: 100%; margin-bottom: 8px; padding: 0; font-weight: 700; }
+.question legend + * { clear: both; }
+.choices { margin: 8px 0; padding-left: 1.6em; }
+.choices li { margin-block: 4px; }
+.question summary { padding-block: 10px; color: var(--accent); font-weight: 700; cursor: pointer; }
+.question summary:focus-visible, .question:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.question .answer { margin-top: 4px; }
+
+button.button { border: 0; font-family: inherit; cursor: pointer; }
+button.button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+.quiz-timer { margin: 18px 0 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.choice { margin-top: 8px; padding: 12px 14px; display: flex; gap: 12px; align-items: flex-start; border: 1px solid #ffffff18; border-radius: 10px; cursor: pointer; }
+.choice input { margin: 5px 0 0; flex: none; accent-color: var(--accent); }
+.choice span { min-width: 0; }
+#quiz-result h3 { margin: 22px 0 4px; font-size: 24px; }
+#quiz-result h4 { margin: 22px 0 10px; font-size: 18px; }
+.verdict { font-weight: 700; }
+.review { margin-bottom: 12px; padding: 4px 16px 4px 14px; border-left: 4px solid var(--muted); background: var(--panel); border-radius: 0 10px 10px 0; }
+.review-prompt { font-weight: 700; }
+.review-flag { color: var(--muted); font-size: 14px; text-transform: uppercase; letter-spacing: .08em; }
+#quiz-result .status { margin-top: 12px; }
