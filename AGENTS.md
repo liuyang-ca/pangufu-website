@@ -7,7 +7,10 @@ deployed to GitHub Pages by `.github/workflows/pages.yml`. Plans:
 ## Repo rules
 
 - Personal project, no JIRA, no second developer. Trunk is `main`; work and commit
-  directly on `main`, no branches or PRs. Push only when the developer asks.
+  directly on `main`, no branches or PRs.
+- **Never push on your own, not even after `/review-loop` or a commit.** A push to
+  `main` deploys the live site at https://pangufu.ca. The developer first checks the
+  change locally, then says to push. Approval for one push does not cover the next.
   This opts the repo out of the global block-trunk-commit guard — marker, do not
   remove: `claude:allow-trunk-commit`
 - Published files: `index.html`, `styles.css`, `robots.txt`, `sitemap.xml`, `assets/`,
