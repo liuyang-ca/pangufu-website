@@ -16,3 +16,5 @@ Production app imagery is copied from local app exports. The captioned screensho
 - `assets/citizencoach-readiness.jpg`, `assets/citizencoach-readiness-fr.jpg` — `citizencoach/scratch/appstore-screenshots/captioned/{en,fr}/iphone/01-home.png`, resized to 680px wide, JPEG quality 84. All six were checked visually for personal information; none was present (sample study text and sample readiness figures only).
 
 All nine screenshots were replaced on 2026-10-22 with the redesigned captioned exports from the same folders, same sizes and quality. The file names stay the same, so `citizencoach-study*.jpg` now holds the Read or Listen image.
+
+Refreshed again later on 2026-10-22 from the same exports after the screenshot scripts stopped cutting off the phone (CardTrainer 6b53356, CitizenCoach bad71d2): every phone is now whole on the page. Same sizes and quality; all nine were checked visually again, with no personal information.
