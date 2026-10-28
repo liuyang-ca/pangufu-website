@@ -28,13 +28,24 @@ python3 tools/make_citizenship_pages.py --resources <folder with questions-*.jso
 python3 -m unittest tools/test_make_citizenship_pages.py
 ```
 
-The two hand-written main pages carry the hreflang alternates and the language switch; the
+The US pages work the same way: `us-citizenship-test/<section>/` and the
+`generated:questions` block of `us-citizenship-test/index.html` (and the same under
+`es/examen-ciudadania-estados-unidos/`, in Spanish) come from `../uscitizencoach/.../Resources/questions-{en,es}.json`
+(every question except the 8 that depend on where you live or who holds office):
+
+```sh
+python3 tools/make_us_citizenship_pages.py            # English
+python3 tools/make_us_citizenship_pages.py --lang es  # Spanish, not yet read by a native speaker
+python3 -m unittest discover -s tools -p 'test_*.py'
+```
+
+The two hand-written Canadian main pages carry the hreflang alternates and the language switch; the
 generator points the chapter pages' own alternates at their translation. The French copy has
 not been reviewed by a French speaker. `tools/` is not published.
 
 ## Hosting
 
-The Pages workflow stages `index.html`, `styles.css`, `robots.txt`, `sitemap.xml`, `assets/`, the app page directories `canada-citizenship-test/`, `fr/` and `blackjack-video-poker-coach/`, and the two other privacy policy directories (`purrcade/`, `citizen-coach-privacy/`) into `_site/`, then deploys that directory with GitHub Pages Actions. Configure the repository's Pages source to **GitHub Actions**. The canonical domain is `https://pangufu.ca/`.
+The Pages workflow stages `index.html`, `404.html`, `styles.css`, `robots.txt`, `sitemap.xml`, `assets/`, the app page directories `canada-citizenship-test/`, `fr/`, `us-citizenship-test/`, `es/` and `blackjack-video-poker-coach/`, and the three other privacy policy directories (`purrcade/`, `citizen-coach-privacy/`, `uscitizencoach-privacy/`) into `_site/`, then deploys that directory with GitHub Pages Actions. Configure the repository's Pages source to **GitHub Actions**. The canonical domain is `https://pangufu.ca/`.
 
 Pages must be enabled in the repository before the workflow can run. For a new
 repository, enable it under Settings → Pages → Source → GitHub Actions, or run
@@ -51,6 +62,7 @@ The website can launch while the app is in development. Before replacing that la
 | Purrcade (catgame) | https://pangufu.ca/purrcade/privacy.html | `../catgame/docs/privacy.html` |
 | Blackjack & Video Poker Coach (cardtrainer) | https://pangufu.ca/blackjack-video-poker-coach/privacy.html | `../cardtrainer/docs/privacy.html` |
 | Canada Citizenship Test Coach (citizencoach) | https://pangufu.ca/citizen-coach-privacy/privacy.html | `../citizencoach/docs/privacy.html` |
+| US Citizen Test Coach (uscitizencoach) | https://pangufu.ca/uscitizencoach-privacy/privacy.html | `../uscitizencoach/docs/privacy.html` |
 
 The Blackjack & Video Poker Coach directory also holds its app page (`index.html`); only `privacy.html` is copied from the app repository. `purrcade/privacy.html` is published for App Store Connect, but the site has no Purrcade page or card.
 

@@ -114,7 +114,7 @@ a:focus-visible {
 
 .intro h1 {
   margin: 19px 0 20px;
-  font-size: clamp(54px, 6vw, 76px);
+  font-size: clamp(40px, 5vw, 56px);
   font-weight: 740;
   line-height: .99;
   letter-spacing: -.04em;
@@ -221,7 +221,7 @@ a:focus-visible {
 .support h2,
 .principles h2 {
   margin: 8px 0 0;
-  font-size: clamp(36px, 4vw, 48px);
+  font-size: clamp(28px, 3vw, 36px);
   line-height: 1.05;
   letter-spacing: -.035em;
 }
@@ -641,7 +641,7 @@ footer {
     grid-template-columns: 1fr .65fr;
     gap: 15px;
   }
-  .intro h1 { font-size: clamp(48px, 8vw, 68px); }
+  .intro h1 { font-size: clamp(36px, 9vw, 48px); }
   .intro-text { font-size: 17px; }
   .mark { height: 210px; }
   .app-card { padding: 18px; grid-template-columns: 1fr; gap: 16px; }
@@ -680,7 +680,7 @@ footer {
     grid-template-columns: 1fr;
     gap: 14px;
   }
-  .intro h1 { font-size: clamp(52px, 12vw, 68px); }
+  .intro h1 { font-size: clamp(36px, 9vw, 48px); }
   .mark { display: none; }
   .copy { grid-row: 1; }
   .intro-text { max-width: 440px; }
@@ -692,7 +692,7 @@ footer {
     flex-direction: column;
     gap: 7px;
   }
-  .section-heading h2 { font-size: 39px; }
+  .section-heading h2 { font-size: 30px; }
   .section-note { font-size: 14px; }
   .app-card { padding: 18px; border-radius: 17px; }
   .card-top { gap: 13px; }
@@ -711,14 +711,14 @@ footer {
   .mode-detail { padding-top: 12px; }
   .principles { padding-block: 44px 46px; }
   .principles-inner { grid-template-columns: 1fr; gap: 20px; }
-  .principles h2 { font-size: 38px; }
+  .principles h2 { font-size: 30px; }
   .principles-copy { font-size: 15px; }
   .support {
     padding-block: 46px 50px;
     grid-template-columns: 1fr;
     gap: 22px;
   }
-  .support h2 { font-size: 39px; }
+  .support h2 { font-size: 30px; }
   .email { justify-self: start; font-size: clamp(23px, 6vw, 31px); }
   .foot { align-items: flex-start; flex-wrap: wrap; }
   .footer-links { width: 100%; flex-direction: column; gap: 8px; }
@@ -730,10 +730,72 @@ footer {
   .nav-links a:first-child { display: none; }
   .nav-links { gap: 8px; }
   .nav-links .nav-contact { padding-inline: 12px; }
-  .intro h1 { font-size: 50px; }
+  .intro h1 { font-size: 36px; }
   .app-card { padding: 15px; }
   .card-bottom { align-items: flex-start; flex-direction: column; }
   .email { font-size: 21px; }
+}
+
+/* Home-only spacing, about a third tighter. Scoped because .apps-section also sits on app pages, and placed last to outrank the breakpoint paddings above. */
+body:not(.content-page) .intro { min-height: 300px; padding-block: 40px 44px; }
+body:not(.content-page) .apps-section { padding: 36px 0 44px; }
+body:not(.content-page) .principles { padding-block: 36px 40px; }
+body:not(.content-page) .support { padding-block: 38px 42px; }
+
+@media (max-width: 800px) {
+  body:not(.content-page) .intro { min-height: 0; padding-block: 40px 34px; }
+  body:not(.content-page) .support { padding-block: 34px; }
+}
+
+@media (max-width: 600px) {
+  body:not(.content-page) .intro { padding-block: 30px 20px; }
+  body:not(.content-page) .apps-section { padding: 24px 0 26px; }
+  body:not(.content-page) .principles { padding-block: 24px 26px; }
+  body:not(.content-page) .support { padding-block: 24px 26px; }
+}
+
+/* Home cards: tighter padding and a narrower screenshot strip; the strip stays three shots wide. */
+body:not(.content-page) .app-feature { padding: 20px; gap: 24px; grid-template-columns: 1.15fr .85fr; }
+body:not(.content-page) .app-feature:nth-child(even) { grid-template-columns: .85fr 1.15fr; }
+body:not(.content-page) .app-shots { gap: 8px; }
+body:not(.content-page) footer { padding-block: 16px 20px; }
+body:not(.content-page) .mark { height: 200px; }
+body:not(.content-page) .intro-text { font-size: 16px; line-height: 1.55; }
+body:not(.content-page) .intro .button { margin-top: 18px; }
+
+body:not(.content-page) .app-feature .card-top { min-height: 0; }
+body:not(.content-page) .app-feature .app-description { margin: 12px 0 10px; line-height: 1.5; }
+body:not(.content-page) .app-feature .feature-points { gap: 5px; }
+body:not(.content-page) .app-feature .card-actions { margin-top: 14px; }
+body:not(.content-page) .app-feature .card-bottom { margin-top: 12px; }
+
+@media (max-width: 800px) {
+  body:not(.content-page) .app-feature,
+  body:not(.content-page) .app-feature:nth-child(even) { padding: 14px; gap: 10px; grid-template-columns: 1fr; }
+  body:not(.content-page) .app-shots { gap: 6px; }
+}
+
+@media (max-width: 600px) {
+  body:not(.content-page) .app-feature .app-icon { width: 52px; height: 52px; }
+  body:not(.content-page) .footer-links { flex-direction: row; flex-wrap: wrap; gap: 4px 14px; }
+  body:not(.content-page) .foot { gap: 8px; }
+  body:not(.content-page) footer { padding-block: 10px 12px; }
+  body:not(.content-page) .intro-text { font-size: 15px; line-height: 1.5; }
+  body:not(.content-page) .intro .button { margin-top: 14px; min-height: 44px; }
+  body:not(.content-page) .intro h1 { margin-block: 12px; }
+  body:not(.content-page) .app-jump { margin-bottom: 12px; gap: 4px 16px; }
+  body:not(.content-page) .section-heading { margin-bottom: 12px; gap: 4px; }
+  body:not(.content-page) .app-feature .app-description { font-size: 14px; margin: 10px 0 8px; }
+  body:not(.content-page) .app-feature .feature-points { font-size: 13px; gap: 3px; }
+  body:not(.content-page) .app-feature .card-actions { margin-top: 10px; gap: 8px 16px; }
+  body:not(.content-page) .app-feature .card-actions .button { min-height: 42px; }
+  body:not(.content-page) .app-feature .card-bottom { margin-top: 10px; }
+  body:not(.content-page) .principles-inner { gap: 10px; }
+  body:not(.content-page) .principles-copy { font-size: 14px; }
+  body:not(.content-page) .app-feature { padding-block: 12px; }
+  body:not(.content-page) .principles-copy p + p { margin-top: 8px; }
+  body:not(.content-page) .support { gap: 12px; }
+  body:not(.content-page) .support .email { margin: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {

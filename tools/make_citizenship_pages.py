@@ -30,7 +30,9 @@ SAMPLES = [
 ]
 
 COPY_EN = {
-    "chapter_title": "{title}: {count} Citizenship Test Practice Questions | PANGUFU",
+    # Short names keep the title under 60 characters with the search phrase first.
+    "short": {"rights": "Rights and Responsibilities", "who-we-are": "Who We Are", "history": "Canada’s History"},
+    "chapter_title": "Canadian Citizenship Test: {short}",
     "chapter_description": (
         "{count} free citizenship test practice questions on {title}, with answers and "
         "explanations. No account. Independent practice."
@@ -56,9 +58,9 @@ COPY_EN = {
         "Start with a quick 5-question quiz, or take the full test: 20 random questions from "
         "the three free chapters in 45 minutes. You need 15 correct to pass, like the real test."
     ),
-    "quiz_noscript": "The practice test needs JavaScript. The sample questions and chapter pages work without it.",
-    "quiz_quick": "Quick quiz: 5 questions",
-    "quiz_full": "Full test: 20 questions, 45 minutes",
+    "quiz_noscript": "The practice test requires JavaScript. The sample questions and chapter pages work without it.",
+    "quiz_quick": "Start quick quiz: 5 questions",
+    "quiz_full": "Start full test: 20 questions, 45 minutes",
     "quiz_time": "Time left:",
     "quiz": {
         "progress": "Question {n} of {total}",
@@ -75,6 +77,8 @@ COPY_EN = {
         "yours": "Your answer:",
         "noAnswer": "No answer",
         "right": "Right answer:",
+        "passMark": 15,
+        "minutes": 45,
         "appNote": (
             "This test used 3 of 11 chapters. The app covers all 11 chapters and your "
             "province, in English and French, with audio."
@@ -87,10 +91,11 @@ COPY_EN = {
 
 # Canadian French, written without a French speaker's review (plan, Risks).
 COPY_FR = {
-    "chapter_title": "{title}\u00a0: {count} questions d’examen de citoyenneté | PANGUFU",
+    "short": {"rights": "droits et responsabilités", "who-we-are": "qui sommes-nous\u00a0?", "history": "histoire du Canada"},
+    "chapter_title": "Examen de citoyenneté canadienne\u00a0: {short}",
     "chapter_description": (
-        "{count} questions de pratique gratuites sur «\u00a0{title}\u00a0» pour l’examen de "
-        "citoyenneté, avec réponses et explications. Sans compte. Pratique indépendante."
+        "{count} questions de pratique gratuites sur «\u00a0{short}\u00a0» pour l’examen de "
+        "citoyenneté, avec réponses et explications. Sans compte."
     ),
     "chapter_h1": "{title}\u00a0: questions de pratique",
     "chapter_eyebrow": "Chapitre gratuit {number}",
@@ -122,8 +127,8 @@ COPY_FR = {
         "Le test pratique demande JavaScript. Les exemples de questions et les pages par "
         "chapitre fonctionnent sans."
     ),
-    "quiz_quick": "Quiz rapide : 5 questions",
-    "quiz_full": "Test complet : 20 questions, 45 minutes",
+    "quiz_quick": "Commencer le quiz rapide\u00a0: 5 questions",
+    "quiz_full": "Commencer le test complet\u00a0: 20 questions, 45 minutes",
     "quiz_time": "Temps restant\u00a0:",
     "quiz": {
         "progress": "Question {n} sur {total}",
@@ -143,6 +148,8 @@ COPY_FR = {
         "yours": "Votre réponse\u00a0:",
         "noAnswer": "Aucune réponse",
         "right": "Bonne réponse\u00a0:",
+        "passMark": 15,
+        "minutes": 45,
         "appNote": (
             "Ce test couvrait 3 chapitres sur 11. L’application couvre les 11 chapitres et votre "
             "province, en français et en anglais, avec audio."
@@ -175,7 +182,7 @@ LANGS = {
 
 QUIZ_JS = r"""
 var all = JSON.parse(document.getElementById('question-data').textContent);
-var PASS = 15, MINUTES = 45;
+var PASS = T.passMark, MINUTES = T.minutes;
 var startBox = document.getElementById('quiz-start');
 var runBox = document.getElementById('quiz-run');
 var form = document.getElementById('quiz-form');
@@ -199,6 +206,23 @@ function shuffle(a) {
     a[i] = a[j]; a[j] = t;
   }
   return a;
+}
+// US questions ship every accepted answer and the app's rule builds the right option at quiz
+// start (QuizViewModel.make/joined): `required` distinct answers in bank order, joined.
+// Canadian questions arrive with finished choices and pass through unchanged.
+function joined(a) {
+  if (a.length < 2) return a[0];
+  var last = a[a.length - 1], head = a.slice(0, -1).join(', ');
+  return a.length === 2 ? a[0] + ' ' + T.and + ' ' + last
+    : head + (T.serial ? ',' : '') + ' ' + T.and + ' ' + last;
+}
+function build(q) {
+  if (!q.accepted) return q;
+  var idx = shuffle(q.accepted.map(function (a, i) { return i; })).slice(0, q.required)
+    .sort(function (a, b) { return a - b; });
+  var right = joined(idx.map(function (i) { return q.accepted[i]; }));
+  var choices = shuffle(q.choices.concat(right));
+  return { prompt: q.prompt, explanation: q.explanation, choices: choices, answer: choices.indexOf(right) };
 }
 function fill(s, o) { return s.replace(/\{(\w+)\}/g, function (m, k) { return o[k]; }); }
 
@@ -232,14 +256,15 @@ function update() {
 // The quick quiz has 5 questions and no timer; the full test mirrors the real one.
 function start(isFull) {
   full = isFull;
-  run = shuffle(all).slice(0, full ? 20 : 5);
+  run = shuffle(all).slice(0, full ? 20 : 5).map(build);
   idx = 0; picks = [];
   clear(out);
   startBox.hidden = true;
   runBox.hidden = false;
-  clock.hidden = !full;
+  if (clock) clock.hidden = !(full && MINUTES);
   clearInterval(tick);
-  if (full) {
+  // MINUTES 0 means no timer (the US interview has none).
+  if (full && MINUTES) {
     endAt = Date.now() + MINUTES * 60000;
     tick = setInterval(update, 1000);
     update();
@@ -303,6 +328,21 @@ document.getElementById('quiz-app').hidden = false;
 
 def esc(s):
     return html.escape(s, quote=True)
+
+
+def seo_head(head, main_text, title, desc, url, section_name):
+    """Make a copied main-page head describe the section page: Open Graph text and URL, plus breadcrumbs."""
+    for prop, val in (("og:title", title), ("og:description", desc), ("og:url", url)):
+        head = re.sub(rf'(<meta property="{prop}" content=")[^"]*(">)',
+                      lambda m: m.group(1) + val + m.group(2), head)
+    h1 = re.search(r'<h1 id="page-title">(.*?)</h1>', main_text, re.S).group(1)
+    main_url = re.search(r'<link rel="canonical" href="([^"]*)">', main_text).group(1)
+    crumbs = [("PANGUFU", f"{SITE}/"), (html.unescape(re.sub(r"<[^>]+>", " ", h1)).strip(), main_url),
+              (section_name, url)]
+    ld = {"@context": "https://schema.org", "@type": "BreadcrumbList",
+          "itemListElement": [{"@type": "ListItem", "position": i, "name": n, "item": u}
+                              for i, (n, u) in enumerate(crumbs, 1)]}
+    return head.replace("</head>", f'  <script type="application/ld+json">{script_json(ld)}</script>\n</head>', 1)
 
 
 def script_json(obj):
@@ -416,7 +456,7 @@ def chapter_page(cfg, lang, main_text, chapters, questions, ch):
     copy = cfg["copy"]
     qs = [q for q in questions if q["chapter"] == ch["id"]]
     counts = {c["id"]: sum(q["chapter"] == c["id"] for q in questions) for c in chapters}
-    fmt = {"title": ch["title"], "count": len(qs), "number": ch["number"]}
+    fmt = {"title": ch["title"], "short": copy["short"][ch["id"]], "count": len(qs), "number": ch["number"]}
     url = f"{SITE}/{cfg['out']}/{ch['slug']}/"
 
     # The shell comes from the hand-written main page so the two cannot drift apart.
@@ -428,6 +468,8 @@ def chapter_page(cfg, lang, main_text, chapters, questions, ch):
                   lambda m: f'<meta name="description" content="{esc(copy["chapter_description"].format(**fmt))}">', head)
     head = re.sub(r'<link rel="canonical" href="[^"]*">', lambda m: f'<link rel="canonical" href="{url}">', head)
     head = localize_head(head, lang, ch["id"])
+    head = seo_head(head, main_text, esc(copy["chapter_title"].format(**fmt)),
+                    esc(copy["chapter_description"].format(**fmt)), url, ch["title"])
 
     body = "\n".join(question_html(i, q, copy) for i, q in enumerate(qs, 1))
     return f"""{head}
@@ -468,6 +510,14 @@ def update_sitemap(path, generated):
     )
 
 
+def replace_block(main_text, block, path):
+    """Swap the text between the START/END markers of a hand-written main page."""
+    if main_text.count(START) != 1 or main_text.count(END) != 1:
+        raise SystemExit(f"{path}: expected exactly one {START} / {END} pair")
+    return re.sub(re.escape(START) + ".*?" + re.escape(END),
+                  lambda m: START + block + END, main_text, flags=re.S)
+
+
 def generate(lang, cfg, root, questions_path, sections_path):
     """Write one language's pages under root; return its published URLs."""
     root = Path(root)
@@ -482,11 +532,7 @@ def generate(lang, cfg, root, questions_path, sections_path):
         page.write_text(chapter_page(cfg, lang, main_text, chapters, questions, ch), encoding="utf-8")
 
     block = "\n" + main_block(cfg, chapters, questions) + "\n      "
-    if main_text.count(START) != 1 or main_text.count(END) != 1:
-        raise SystemExit(f"{main_path}: expected exactly one {START} / {END} pair")
-    new_main = re.sub(re.escape(START) + ".*?" + re.escape(END),
-                      lambda m: START + block + END, main_text, flags=re.S)
-    main_path.write_text(new_main, encoding="utf-8")
+    main_path.write_text(replace_block(main_text, block, main_path), encoding="utf-8")
 
     return [page_url(lang)] + [page_url(lang, c["id"]) for c in chapters]
 

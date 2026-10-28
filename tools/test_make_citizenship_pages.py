@@ -36,6 +36,21 @@ SAMPLES = ["rights-1", "who-we-are-1", "history-1"]
 CFG_FIXTURE = {**CFG, "samples": SAMPLES}
 CFG_FR_FIXTURE = {**CFG_FR, "samples": SAMPLES}
 
+def head_tag(page, pattern):
+    return re.search(pattern, page).group(1)
+
+
+def check_share_tags(test, page, url):
+    """og:title/description/url must equal the page's title, meta description and canonical; breadcrumbs end here."""
+    test.assertEqual(head_tag(page, r'og:title" content="([^"]*)"'), head_tag(page, r"<title>(.*?)</title>"))
+    test.assertEqual(head_tag(page, r'og:description" content="([^"]*)"'), head_tag(page, r'name="description" content="([^"]*)"'))
+    test.assertEqual(head_tag(page, r'og:url" content="([^"]*)"'), url)
+    test.assertEqual(head_tag(page, r'rel="canonical" href="([^"]*)"'), url)
+    test.assertEqual(page.count("twitter:card"), 1)
+    crumbs = json.loads(head_tag(page, r'ld\+json">(.*?)</script>'))["itemListElement"]
+    test.assertEqual([c["position"] for c in crumbs], [1, 2, 3])
+    test.assertEqual(crumbs[-1]["item"], url)
+
 
 class GeneratorTest(unittest.TestCase):
     def setUp(self):
@@ -105,6 +120,11 @@ class GeneratorTest(unittest.TestCase):
             self.assertIn(f'<link rel="canonical" href="https://pangufu.ca/{CFG["out"]}/{slug}/">', page)
             titles.add(page.split("<title>")[1].split("</title>")[0])
         self.assertEqual(len(titles), 3)
+
+    def test_chapter_share_tags_match_title_and_description(self):
+        self.run_gen()
+        for slug in CFG["slugs"]:
+            check_share_tags(self, self.read(slug, "index.html"), f'https://pangufu.ca/{CFG["out"]}/{slug}/')
 
     def test_output_is_stable_across_runs(self):
         self.run_gen()
