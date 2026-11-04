@@ -16,7 +16,7 @@ deployed to GitHub Pages by `.github/workflows/pages.yml`. Plans:
 - Published files: `index.html`, `404.html`, `styles.css`, `robots.txt`, `sitemap.xml`, `assets/`,
   the app page directories `canada-citizenship-test/` and `fr/` (its French pages), `us-citizenship-test/` and `es/` (its Spanish pages), and the directories
   `purrcade/`, `blackjack-video-poker-coach/` (app page plus privacy policy),
-  `citizen-coach-privacy/`, `uscitizencoach-privacy/`.
+  `citizen-coach-privacy/`, `uscitizencoach-privacy/`, `steady-refresh/` (extension privacy policy and terms).
   `mockups/`, `docs/` and the git-ignored `output/` are not published.
 - Generated, never hand-edited: the citizenship chapter and section pages, the `generated:questions`
   block of all four citizenship main pages, and the citizenship URLs in `sitemap.xml`. Edit
