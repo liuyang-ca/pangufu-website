@@ -45,7 +45,7 @@ not been reviewed by a French speaker. `tools/` is not published.
 
 ## Hosting
 
-The Pages workflow stages `index.html`, `404.html`, `styles.css`, `robots.txt`, `sitemap.xml`, `assets/`, the app page directories `canada-citizenship-test/`, `fr/`, `us-citizenship-test/`, `es/` and `blackjack-video-poker-coach/`, the four other privacy policy directories (`purrcade/`, `citizen-coach-privacy/`, `uscitizencoach-privacy/`, `euchre/`) and `steady-refresh/` (Chrome extension privacy policy and terms) into `_site/`, then deploys that directory with GitHub Pages Actions. Configure the repository's Pages source to **GitHub Actions**. The canonical domain is `https://pangufu.ca/`.
+The Pages workflow stages `index.html`, `404.html`, `styles.css`, `robots.txt`, `sitemap.xml`, `assets/`, the app page directories `canada-citizenship-test/`, `fr/`, `us-citizenship-test/`, `es/`, `blackjack-video-poker-coach/` and `euchre/`, the three other privacy policy directories (`purrcade/`, `citizen-coach-privacy/`, `uscitizencoach-privacy/`) and `steady-refresh/` (Chrome extension privacy policy and terms) into `_site/`, then deploys that directory with GitHub Pages Actions. Configure the repository's Pages source to **GitHub Actions**. The canonical domain is `https://pangufu.ca/`.
 
 Pages must be enabled in the repository before the workflow can run. For a new
 repository, enable it under Settings → Pages → Source → GitHub Actions, or run
@@ -67,7 +67,7 @@ The website can launch while the app is in development. Before replacing that la
 | Steady Refresh (autorefresh), privacy | https://pangufu.ca/steady-refresh/privacy.html | `../autorefresh/docs/privacy.html` |
 | Steady Refresh (autorefresh), terms | https://pangufu.ca/steady-refresh/terms.html | `../autorefresh/docs/terms.html` |
 
-The Blackjack & Video Poker Coach directory also holds its app page (`index.html`); only `privacy.html` is copied from the app repository. `purrcade/privacy.html` and `euchre/privacy.html` are published for App Store Connect, but the site has no Purrcade or Euchre page or card.
+The Blackjack & Video Poker Coach and Euchre directories also hold their app pages (`index.html`); only `privacy.html` is copied from each app repository. `purrcade/privacy.html` is published for App Store Connect; Purrcade has no page or card.
 
 Copy each source policy into its matching directory here when its content changes.
 Deploy these pages before releasing app builds or saving App Store Connect metadata

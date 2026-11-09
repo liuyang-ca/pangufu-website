@@ -21,6 +21,11 @@ Refreshed again later on 2026-10-22 from the same exports after the screenshot s
 
 Refreshed on 2026-10-28 from the re-captioned exports. CitizenCoach now reads from `citizencoach/scratch/appstore-screenshots/captioned/{en,fr}/iphone/{01-home,03-quiz,04-listen}.png` (the quiz page was renumbered from 02). CardTrainer uses the same three files as before. Same 680px width; quality 84, except `citizencoach-study*.jpg` at 68, `citizencoach-readiness-fr.jpg` at 76 and `cardtrainer-video-poker.jpg` at 76 to stay under 200 KB. All nine were checked visually; no personal information.
 
+Refreshed on 2026-11-08 from the CardTrainer exports regenerated that day: `cardtrainer-practice.jpg`, `cardtrainer-counting.jpg` and `cardtrainer-video-poker.jpg` from the same three files, 680px wide, quality 84 (video poker now fits under 200 KB at 84), and `og-cardtrainer.jpg` remade from the new practice image. Captions are unchanged. Checked visually; sample hands only, no personal information.
+
+- `assets/euchre-icon.png` — `euchre/Euchre/Assets.xcassets/AppIcon.appiconset/AppIcon.png`, resized to 128px square.
+- `assets/euchre-table.jpg`, `assets/euchre-hint.jpg`, `assets/euchre-scenario.jpg`, `assets/euchre-review.jpg` — `euchre/scratch/appstore-screenshots/captioned/iphone-6.9/{01-table,02-hint,03-scenario,05-review}.png`, resized to 680px wide, JPEG quality 84, each under 200 KB. Checked visually on 2026-11-08; sample deals only, no personal information. The home-page card uses table, hint and scenario; the app page uses table, hint and review.
+
 - `assets/uscitizencoach-icon.png` — `uscitizencoach/USCitizenCoach/Assets.xcassets/AppIcon.appiconset/AppIcon.png`, resized to 128px square.
 - `assets/uscitizencoach-home.jpg`, `assets/uscitizencoach-interview.jpg`, `assets/uscitizencoach-reading-writing.jpg` — `uscitizencoach/scratch/appstore-screenshots/captioned/en/iphone/{01-home,02-interview,03-writing}.png`, resized to 680px wide, JPEG quality 84 (home at 80, under 200 KB). Checked visually; sample progress and sample answers only, no personal information.
 - `assets/uscitizencoach-home-es.jpg`, `assets/uscitizencoach-interview-es.jpg`, `assets/uscitizencoach-reading-writing-es.jpg` — `uscitizencoach/scratch/appstore-screenshots/captioned/es/iphone/{01-home,02-interview,03-writing}.png`, resized to 680px wide, JPEG quality 80 (home 181 KB, others under 150 KB). Checked visually; sample progress and sample answers only, no personal information.
@@ -30,4 +35,5 @@ Share images for Open Graph and Twitter cards, made on 2026-10-28 with a throwaw
 - `assets/og-citizencoach.jpg`, `assets/og-citizencoach-fr.jpg` — `citizencoach-icon.png` + `citizencoach-readiness.jpg` / `citizencoach-readiness-fr.jpg` (French page gets the French caption and store name).
 - `assets/og-uscitizencoach.jpg`, `assets/og-uscitizencoach-es.jpg` — `uscitizencoach-icon.png` + `uscitizencoach-home.jpg` / `uscitizencoach-home-es.jpg`.
 - `assets/og-cardtrainer.jpg` — `cardtrainer-icon.png` + `cardtrainer-practice.jpg`.
-- `assets/og-pangufu.jpg` — the three app icons and the PANGUFU name, no screenshot (the home page covers three apps).
+- `assets/og-euchre.jpg` — `euchre-icon.png` + `euchre-table.jpg`, made on 2026-11-08 the same way, with the store name shortened to "Euchre".
+- `assets/og-pangufu.jpg` — the three app icons and the PANGUFU name, no screenshot (made when the home page covered three apps; Euchre is not on it yet).
