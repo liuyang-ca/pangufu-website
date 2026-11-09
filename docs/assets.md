@@ -36,4 +36,4 @@ Share images for Open Graph and Twitter cards, made on 2026-10-28 with a throwaw
 - `assets/og-uscitizencoach.jpg`, `assets/og-uscitizencoach-es.jpg` — `uscitizencoach-icon.png` + `uscitizencoach-home.jpg` / `uscitizencoach-home-es.jpg`.
 - `assets/og-cardtrainer.jpg` — `cardtrainer-icon.png` + `cardtrainer-practice.jpg`.
 - `assets/og-euchre.jpg` — `euchre-icon.png` + `euchre-table.jpg`, made on 2026-11-08 the same way, with the store name shortened to "Euchre".
-- `assets/og-pangufu.jpg` — the three app icons and the PANGUFU name, no screenshot (made when the home page covered three apps; Euchre is not on it yet).
+- `assets/og-pangufu.jpg` — brand only, so it never needs remaking when an app is added: the `favicon.svg` P monogram on a `#171915` tile, the PANGUFU name, the home page headline "Small apps. Thoughtfully made." and "iPhone & iPad apps for learning and practice". Remade on 2026-11-08 with a throwaway script (not committed), replacing the earlier three-icon version; 1200x630, quality 85, 39 KB.
