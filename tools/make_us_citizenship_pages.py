@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the US citizenship practice-test pages from the US Citizen Test Coach question file.
+"""Generate the US citizenship practice-test pages from the USA Citizenship Test Coach question file.
 
 Standard library only. Writes the section pages whole, replaces the marked block of the
 hand-written main page, and updates the language's URLs in sitemap.xml:

@@ -63,7 +63,7 @@ The website can launch while the app is in development. Before replacing that la
 | Purrcade (catgame) | https://pangufu.ca/purrcade/privacy.html | `../catgame/docs/privacy.html` |
 | Blackjack & Video Poker Coach (cardtrainer) | https://pangufu.ca/blackjack-video-poker-coach/privacy.html | `../cardtrainer/docs/privacy.html` |
 | Canada Citizenship Test Coach (citizencoach) | https://pangufu.ca/citizen-coach-privacy/privacy.html | `../citizencoach/docs/privacy.html` |
-| US Citizen Test Coach (uscitizencoach) | https://pangufu.ca/uscitizencoach-privacy/privacy.html | `../uscitizencoach/docs/privacy.html` |
+| USA Citizenship Test Coach (uscitizencoach) | https://pangufu.ca/uscitizencoach-privacy/privacy.html | `../uscitizencoach/docs/privacy.html` |
 | Steady Refresh (autorefresh), privacy | https://pangufu.ca/steady-refresh/privacy.html | `../autorefresh/docs/privacy.html` |
 | Steady Refresh (autorefresh), terms | https://pangufu.ca/steady-refresh/terms.html | `../autorefresh/docs/terms.html` |
 
