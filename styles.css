@@ -398,6 +398,8 @@ a:focus-visible {
   border-radius: 14px;
 }
 
+.training-shot.wide { width: 100%; }
+
 .training-card .app-kind { padding-right: 32px; }
 
 .mode-number {
