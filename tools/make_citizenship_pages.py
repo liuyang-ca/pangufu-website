@@ -83,7 +83,8 @@ COPY_EN = {
             "This test used 3 of 11 chapters. The app covers all 11 chapters and your "
             "province, in English and French, with audio."
         ),
-        "soon": "Coming soon to the App Store",
+        "download": "Download on the App Store",
+        "store": "https://apps.apple.com/app/id6826005244",
         "again": "Try another",
     },
 }
@@ -154,7 +155,8 @@ COPY_FR = {
             "Ce test couvrait 3 chapitres sur 11. L’application couvre les 11 chapitres et votre "
             "province, en français et en anglais, avec audio."
         ),
-        "soon": "Bientôt sur l’App Store",
+        "download": "Télécharger dans l’App Store",
+        "store": "https://apps.apple.com/app/id6826005244",
         "again": "Recommencer",
     },
 }
@@ -296,10 +298,12 @@ function finish(timedOut) {
     });
   }
   out.appendChild(el('p', T.appNote, 'app-note'));
-  var soon = el('p', '', 'status');
-  soon.appendChild(el('span'));
-  soon.appendChild(document.createTextNode(T.soon));
-  out.appendChild(soon);
+  var store = el('a', T.download + ' ', 'button secondary');
+  store.href = T.store;
+  var arrow = el('span', '↗');
+  arrow.setAttribute('aria-hidden', 'true');
+  store.appendChild(arrow);
+  out.appendChild(store);
   var actions = el('div', '', 'quiz-actions');
   if (!full) {
     var toFull = el('button', T.fullTest, 'button primary');

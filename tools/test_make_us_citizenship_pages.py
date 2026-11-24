@@ -134,7 +134,7 @@ class GeneratorTest(unittest.TestCase):
         self.assertIn('"passMark":12,"minutes":0', main)
         self.assertNotIn('id="quiz-clock"', main.split("<script")[0])
         self.assertNotIn("Time left", main)
-        self.assertIn("Coming soon to the App Store", main)
+        self.assertIn('"download":"Download on the App Store","store":"https://apps.apple.com/app/id6828112559"', main)
 
     def test_section_share_tags_match_title_and_description(self):
         self.run_gen()

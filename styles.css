@@ -840,4 +840,3 @@ button.button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px
 .review { margin-bottom: 12px; padding: 4px 16px 4px 14px; border-left: 4px solid var(--muted); background: var(--panel); border-radius: 0 10px 10px 0; }
 .review-prompt { font-weight: 700; }
 .review-flag { color: var(--muted); font-size: 14px; text-transform: uppercase; letter-spacing: .08em; }
-#quiz-result .status { margin-top: 12px; }

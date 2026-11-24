@@ -92,7 +92,8 @@ COPY_EN = {
             "The app covers all 128 questions, your state and current officeholders, a spoken "
             "mock interview and reading and writing practice."
         ),
-        "soon": "Coming soon to the App Store",
+        "download": "Download on the App Store",
+        "store": "https://apps.apple.com/app/id6828112559",
         "again": "Try another",
     },
 }
@@ -159,7 +160,8 @@ COPY_ES = {
             "La app cubre las 128 preguntas, su estado y los funcionarios actuales, una entrevista "
             "de práctica hablada y práctica de lectura y escritura."
         ),
-        "soon": "Próximamente en la App Store",
+        "download": "Descárgalo en el App Store",
+        "store": "https://apps.apple.com/app/id6828112559",
         "again": "Probar con otras",
     },
 }
